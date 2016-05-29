@@ -7,7 +7,7 @@ angular.module('chatroom').controller('mainCtrl', function($scope, parseService)
       parseService.getData()
       .then(function(response){
        $scope.messages = response;
-       console.log(response);
+      //  console.log(response);
       })
     }
     $scope.getParseData();
@@ -18,17 +18,25 @@ angular.module('chatroom').controller('mainCtrl', function($scope, parseService)
   //The postData function will take whatever the user typed in (hint: look at the html and see what ng-model correlates to on the input box),
   //pass that text to the postData method on the parseService object which will then post it to the parse backend.
 $scope.postData = function(message) {
-  parseService.postData().then(function())
+  parseService.postData(message).then(function(response){
+    $scope.message = response.data.text;
+    console.log(response.data.text);
+  })
+
+  }
+$scope.postData();
 
 
 
-}
+
+$scope.sortOldToNew = true;
+
 
 
 
   //uncomment this code when your getParseData function is finished
   //This goes and gets new data every second, which mimicking a chat room experience.
-  // setInterval(function(){
-  //   $scope.getParseData();
-  // }, 1500)
+   setInterval(function(){
+     $scope.getParseData();
+   }, 1500)
 });
